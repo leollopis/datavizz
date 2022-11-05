@@ -1,0 +1,323 @@
+<html>
+<style>
+@font-face
+{
+    font-family:Dimitri;
+    src:url(DIMITRI_.ca792268.ttf)format("truetype")
+}
+
+.en
+{
+    width:100%;
+    height: 10%;
+    background-color:#000000;
+    border-top:2px solid #fff;
+    border-bottom:2px solid #fff;
+    justify-content:center;
+    align-items: center;
+    display:flex
+}
+    
+body
+{
+    width:100%;
+    background:linear-gradient(#d902ee,#320d3e);
+    margin:0
+}
+    
+.colonne
+{
+    flex-direction:column;
+    display:flex
+}
+
+.ligne
+{
+    flex-direction:row;
+    display:flex
+}
+
+.bulle
+{
+    border-radius:10px
+}
+
+#test{
+    justify-content: space-evenly;
+}
+
+#page_streamer
+{
+    background-color: #cdbbed;
+    width: 80%;
+}
+
+#conteneur
+{
+    overflow: hidden;
+    background-color: #f7baf7;
+    min-width: 33%;
+    box-shadow: 0px 15px 10px -5px rgb(0, 0, 0);
+    text-align: center;
+}
+
+#conteneur2
+{
+    overflow: hidden;
+    background:linear-gradient(#f162ff,#d902ee);
+    min-width: 80%;
+    box-shadow: 0px 15px 10px -5px rgb(0, 0, 0);
+    text-align: center;
+}
+
+#anim{
+    width: 400%;
+    height: 0;
+    padding-top: 75%;
+    background-image: url("");
+    background-size: contain;
+    background-position: center;
+    animation: defilement2 12s linear infinite;
+}    
+@keyframes defilement2{
+    0%{transform: translate(0,0);}
+    100%{transform: translate(-75%,0);}
+}
+
+
+button{
+    height:4vh;
+    border:none;
+    margin:5px
+    }
+    
+button:hover{
+    cursor:pointer
+    }
+
+ul{
+    gap:30px;
+    list-style-type:none
+    }
+    
+.centre_col{
+    align-items:center;
+    display:flex
+    }
+    
+.centre{
+    justify-content:center;
+    display:flex}
+    
+a{text-decoration:none}
+
+.w-full{width:100%}
+
+h1{
+    color:#000;
+    font-family:Dimitri,sans-serif;
+    font-size:3vw;
+    text-shadow:1px 1px #fff,-1px 1px #fff,-1px -1px #fff,1px -1px #fff
+    }
+    
+h2{color:#04002c}
+
+.mt{margin-top:5%}
+
+.mb{margin-bottom:5%}
+
+.logo{height:100px;width:100px}
+
+.se{
+    justify-content:space-evenly;
+    display:flex
+    }
+
+.full-marge{margin:1%}
+
+.bleu{background:linear-gradient(#90aeff,#93e0ec)}
+
+.bleu_fonce{background:linear-gradient(#3267f8,#93e0ec)}
+
+.bleu_fonce:hover{background:linear-gradient(#93e0ec,#3267f8)}
+
+.twitch{background:linear-gradient(#d902ee,#f162ff)}
+
+.twitch:hover{background:linear-gradient(#f162ff,#d902ee)}
+
+td{
+    color:#000;
+    background:#f7baf7;
+    outline:1px solid #fff;
+    padding:20px
+}
+
+td:hover{
+    color:#f7baf7;
+    background:#000
+    }
+    
+th{
+    color:#f7baf7;
+    background-color:#000;
+    outline:1px solid #fff;
+    padding:24px;font-size:30px
+}
+    
+table{
+    letter-spacing:1px;
+    width:80%;
+    font-family:sans-serif;
+    font-size:.8rem
+    }
+
+input{margin:5px}
+
+a{text-decoration: none;}
+</style>
+<link rel="stylesheet" href="main.8e721a06.css"><head><title>Projet</title></head><body class="colonne"> <div class="centre"><a href="http://localhost:8000/main.php"> <h1>TWITCH TRACKER</h1></a> </div> <div class="en ligne"> <a href="http://localhost:8000/comparate.php"><button class="bulle twitch">Comparer deux streamers</button></a> <input type="text" class="bulle" placeholder="rechercher"> </div><div class="centre_col colonne mt>"><div class="ligne"><input type="text" id="first" class="bulle" placeholder="1er streamer"><input type="text" id="second" class="bulle" placeholder="2eme streamer"><button id="generer" class="bulle twitch">Valider</button></div><div class="mt bulle colonne centre_col mb" id="conteneur2"><div class="ligne mt"><div class="bulle" id="conteneur"><canvas id="histo1"></canvas></div><div class="bulle" id="conteneur"><canvas id="histo2"></canvas></div></div><div class="ligne mt mb"><div class="bulle" id="conteneur"><canvas id="histo3"></canvas></div><div class="bulle" id="conteneur"><canvas id="histo4"></canvas></div></div></div></div> </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+var bouton = document.getElementById("generer");
+var first = document.getElementById("first");
+var second = document.getElementById("second");
+bouton.addEventListener("click", myFunction);
+function myFunction() {
+    var val1=first.value;
+    var val2=second.value;
+    var path="get_stats.php?id1="+val1+"&id2="+val2;
+    fetch(path);
+    fetch("streamer_1.json")
+    .then(response => {
+    return response.json();
+    })
+    .then(jsondata => {
+    names=jsondata;
+});
+    fetch("streamer_2.json")
+    .then(response => {
+   return response.json();
+    })
+.then(jsondata => {
+
+    const labels = [
+    'Rank',];
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: names[0]['name'],
+      backgroundColor: 'rgb(89, 222, 237)',
+      borderColor: 'rgb(89, 222, 237 )',
+      data: [jsondata[0]['rank']],
+    },{
+      label: names[1]['name'],
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [jsondata[1]['rank']],
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {}
+  };
+
+  const label2 = [
+    'minutes streamed',
+];
+
+  const data2 = {
+    labels: label2,
+    datasets: [{
+      label: names[0]['name'],
+      backgroundColor: 'rgb(89, 222, 237)',
+      borderColor: 'rgb(89, 222, 237 )',
+      data: [jsondata[0]['minutes_streamed']],
+    },{
+      label: names[1]['name'],
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [jsondata[1]['minutes_streamed']],
+    }]
+  };
+
+  const config2 = {
+    type: 'bar',
+    data: data2,
+    options: {}
+  };
+
+  const label3 = [
+    'followers_total',
+];
+
+  const data3 = {
+    labels: label3,
+    datasets: [{
+      label: names[0]['name'],
+      backgroundColor: 'rgb(89, 222, 237)',
+      borderColor: 'rgb(89, 222, 237 )',
+      data: [jsondata[0]['followers_total']],
+    },{
+      label: names[1]['name'],
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [jsondata[1]['followers_total']],
+    }]
+  };
+
+  const config3 = {
+    type: 'bar',
+    data: data3,
+    options: {}
+  };
+
+  const label4 = [
+    'views_total',
+];
+
+  const data4 = {
+    labels: label4,
+    datasets: [{
+      label: names[0]['name'],
+      backgroundColor: 'rgb(89, 222, 237)',
+      borderColor: 'rgb(89, 222, 237 )',
+      data: [jsondata[0]['views_total']],
+    },{
+      label: names[1]['name'],
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [jsondata[1]['views_total']],
+    }]
+  };
+
+  const config4 = {
+    type: 'bar',
+    data: data4,
+    options: {}
+  };
+
+  const myChart = new Chart(
+    document.getElementById('histo1'),
+    config
+  );
+
+  const myChart2 = new Chart(
+    document.getElementById('histo2'),
+    config2
+  );
+
+  const myChart3 = new Chart(
+    document.getElementById('histo3'),
+    config3
+  );
+
+  const myChart4 = new Chart(
+    document.getElementById('histo4'),
+    config4
+  );
+});
+}
+</script></html>

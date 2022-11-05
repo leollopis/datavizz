@@ -1,0 +1,138 @@
+<html>
+<style>
+@font-face
+{
+    font-family:Dimitri;
+    src:url(DIMITRI_.ca792268.ttf)format("truetype")
+}
+
+.en
+{
+    width:100%;
+    height: 10%;
+    background-color:#000000;
+    border-top:2px solid #fff;
+    border-bottom:2px solid #fff;
+    justify-content:center;
+    align-items: center;
+    display:flex
+}
+    
+body
+{
+    width:100%;
+    background:linear-gradient(#d902ee,#320d3e);
+    margin:0
+}
+    
+.colonne
+{
+    flex-direction:column;
+    display:flex
+}
+
+.ligne
+{
+    flex-direction:row;
+    display:flex
+}
+
+.bulle
+{
+    border-radius:10px
+}
+
+#test{
+    justify-content: space-evenly;
+}
+
+#page_streamer
+{
+    width: 80%;
+    background:linear-gradient(#f162ff,#d902ee);
+    box-shadow: 0px 15px 10px -5px rgb(0, 0, 0);
+}
+
+.mb
+{
+    margin-bottom: 5%;
+}
+
+#conteneur
+{
+    overflow: hidden;
+    background-color: #f7baf7;
+    min-width: 33%;
+    box-shadow: 0px 15px 10px -5px rgb(0, 0, 0);
+    text-align: center;
+}
+
+.conteneur3
+{
+    background:linear-gradient(#f162ff,#f7baf7);
+    text-align: center;
+}
+
+#anim{
+    width: 400%;
+    height: 0;
+    padding-top: 75%;
+    background-image: url("");
+    background-size: contain;
+    background-position: center;
+    animation: defilement2 12s linear infinite;
+}    
+@keyframes defilement2{
+    0%{transform: translate(0,0);}
+    100%{transform: translate(-75%,0);}
+}
+
+
+button{height:4vh;border:none;margin:5px}button:hover{cursor:pointer}ul{gap:30px;list-style-type:none}.centre_col{align-items:center;display:flex}.centre{justify-content:center;display:flex}a{text-decoration:none}.w-full{width:100%}h1{color:#000;font-family:Dimitri,sans-serif;font-size:3vw;text-shadow:1px 1px #fff,-1px 1px #fff,-1px -1px #fff,1px -1px #fff}h2{color:#04002c}.mt{margin-top:5%}.logo{height:100px;width:100px}.se{justify-content:space-evenly;display:flex}.full-marge{margin:1%}.bleu{background:linear-gradient(#90aeff,#93e0ec)}.bleu_fonce{background:linear-gradient(#3267f8,#93e0ec)}.bleu_fonce:hover{background:linear-gradient(#93e0ec,#3267f8)}.twitch{background:linear-gradient(#d902ee,#f162ff)}.twitch:hover{background:linear-gradient(#f162ff,#d902ee)}td{color:#000;background:#f7baf7;outline:1px solid #fff;padding:20px}td:hover{color:#f7baf7;background:#000}th{color:#f7baf7;background-color:#000;outline:1px solid #fff;padding:24px;font-size:30px}table{letter-spacing:1px;width:80%;font-family:sans-serif;font-size:.8rem}input{margin:5px}a{text-decoration: none;}</style><link rel="stylesheet" href="main.8e721a06.css"><head><title>Projet</title></head><body class="colonne"> <div class="centre"> <a href="http://localhost:8000/main.php"> <h1>TWITCH TRACKER</h1></a>  </div> <div class="en ligne"><a href="http://localhost:8000/comparate.php"><button class="bulle twitch">Comparer deux streamers</button></a> <input type="text" class="bulle" placeholder="rechercher"> </div>
+<div class="centre_col colonne mt>">
+    <div class="colonne mt bulle mb" id="page_streamer">
+        <div class="ligne centre_col" id="test">
+            <div class="bulle" id="conteneur">
+                <div id="anim"></div>
+            </div>
+            <div class="colonne">
+            <div class="bulle conteneur3"><h2 id="rank">Classement : </h2></div>
+            <div class="bulle conteneur3"><h2 id="strs_total">Nombres de Followers : </h2></div>
+            <div class="bulle conteneur3"><h2 id="views_total">Nombres total de vues : </h2></div>
+            <div class="bulle conteneur3"><h2 id="min">Temps de stream en minutes : </h2></div>
+            <div class="bulle conteneur3"><h2 id="avg_viewers">Viewers moyens ce mois : </h2></div>
+            <div class="bulle conteneur3"><h2 id="max_viewers">Maximum de viewer ce mois : </h2></div>
+            <div class="bulle conteneur3"><h2 id="hours">Heures regardées ce mois : </h2></div>
+            <div class="bulle conteneur3"><h2 id="followers">Nouveaux Followers ce mois : </h2></div>
+            <div class="bulle conteneur3"><h2 id="views">Nombres de vues ce mois : </h2></div></div></div></div></div> </body><script>
+var div = document.getElementById("conteneur");
+fetch("streamer_name.json")
+.then(response => {
+   return response.json();
+})
+.then(jsondata => {
+    var texte=document.createElement('p');
+    texte.textContent=jsondata[0]['name'];
+
+    jsondata[0]['name'] = jsondata[0]['name'].replace(/ /g, "_") // Verification et remplassage des " " pour les photos de streamers
+
+    var path="url("+jsondata[0]['name']+".jpg)";
+    document.getElementById('anim').style.backgroundImage=path;
+    div.appendChild(texte);
+});
+fetch("streamer_stats.json")
+.then(response => {
+   return response.json();
+})
+.then(jsondata => {
+    document.getElementById('rank').textContent+=jsondata[0]['rank'];
+    document.getElementById('strs_total').textContent+=jsondata[0]['followers_total'];
+    document.getElementById('views_total').textContent+=jsondata[0]['views_total'];
+    document.getElementById('min').textContent+=jsondata[0]['minutes_streamed'];
+    document.getElementById('avg_viewers').textContent+=jsondata[0]['avg_viewers'];
+    document.getElementById('max_viewers').textContent+=jsondata[0]['max_viewers'];
+    document.getElementById('hours').textContent+=jsondata[0]['hours_watched'];
+    document.getElementById('followers').textContent+=jsondata[0]['followers'];
+    document.getElementById('views').textContent+=jsondata[0]['views'];
+});
+</script></html>

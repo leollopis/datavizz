@@ -1,0 +1,147 @@
+<html>
+<style>
+@font-face
+{
+    font-family:Dimitri;
+    src:url(DIMITRI_.ca792268.ttf)format("truetype")
+}
+
+.en
+{
+    width:100%;
+    height: 10%;
+    background-color:#000000;
+    border-top:2px solid #fff;
+    border-bottom:2px solid #fff;
+    justify-content:center;
+    align-items: center;
+    display:flex
+}
+    
+body
+{
+    width:100%;
+    background:linear-gradient(#d902ee,#320d3e);
+    margin:0
+}
+    
+.colonne
+{
+    flex-direction:column;
+    display:flex
+}
+
+.ligne
+{
+    flex-direction:row;
+    display:flex;
+    width:100%;
+}
+
+.bulle
+{
+    text-align:center;
+    border-radius:10px
+}
+
+.invisible
+{
+    display: none;
+}
+
+.cellule-tableau
+{
+    color: #f7baf7;
+    background-color: #000;
+}
+
+.cellule-tableau:hover{
+    background-color: #f7baf7;
+    color: #000;
+}
+
+#switch
+{
+    background-color: #f7baf7;
+}
+
+#argu
+{
+    background-color: #f7baf7;
+    width:80%;
+}
+
+.fleche
+{
+    width: 5%;
+}
+
+.mb
+{
+    margin-bottom: 5%;
+}
+
+button{height:4vh;border:none;margin:5px}button:hover{cursor:pointer}ul{gap:30px;list-style-type:none}.centre_col{align-items:center;display:flex}.centre{justify-content:center;display:flex}a{text-decoration:none}.w-full{width:100%}h1{color:#000;font-family:Dimitri,sans-serif;font-size:3vw;text-shadow:1px 1px #fff,-1px 1px #fff,-1px -1px #fff,1px -1px #fff}h2{color:#04002c}.mt{margin-top:5%}.logo{height:100px;width:100px}.se{justify-content:space-evenly;display:flex}.full-marge{margin:1%}.bleu{background:linear-gradient(#90aeff,#93e0ec)}.bleu_fonce{background:linear-gradient(#3267f8,#93e0ec)}.bleu_fonce:hover{background:linear-gradient(#93e0ec,#3267f8)}.twitch{background:linear-gradient(#d902ee,#f162ff)}.twitch:hover{background:linear-gradient(#f162ff,#d902ee)}td{color:#000;background:#f7baf7;outline:1px solid #fff;padding:20px}td:hover{color:#d902ee;background:#000}th{color:#d902ee;background-color:#000;outline:1px solid #fff;padding:24px;font-size:30px}table{letter-spacing:1px;width:80%;font-family:sans-serif;font-size:.8rem}input{margin:5px}a{text-decoration: none;}</style><link rel="stylesheet" href="main.8e721a06.css"><head><title>Projet</title></head><body class="colonne"> <div class="centre"> <a href="http://localhost:8000/main.php"> <h1>TWITCH TRACKER</h1></a>  </div> <div class="en ligne"> <a href="http://localhost:8000/comparate.php"><button class="bulle twitch">Comparer deux streamers</button></a> <input type="text" class="bulle" placeholder="rechercher"> </div> <div class="centre_col colonne mt"><div class="bulle" id="argu"><select name="pets" id="pet-select">
+    <option value="">--Please choose an option--</option>
+</select></div><div class="ligne centre centre_col"><div id="switch" class="colonne bulle"><h2>Afficher/Masquer</h2></div><table id="tableau"> <tr><th>Streamer</th> <th>Rank</th> <th>Total followers</th> <th>Total views</th> </tr> </table> </div><div class="ligne centre centre_col mb mt"><img class="fleche" id="pre" src="précédent.png"/>&emsp;Page:&emsp;<img class="fleche" id="suiv" src="suivant.png"/></div></div></body><script>
+var table = document.getElementById("tableau");
+var enable = document.getElementById("switch");
+fetch("stats.json")
+.then(response => {
+   return response.json();
+})
+.then(jsondata => {
+    console.log(jsondata);
+    stats=jsondata;
+});
+fetch("myfile.json")
+.then(response => {
+   return response.json();
+})
+.then(jsondata => {
+    console.log(jsondata);
+for (let i = 0; i < jsondata.length; i++) {
+    let row_1 = document.createElement('tr');
+let heading_2 = document.createElement('td');
+heading_2.innerHTML = stats[i]["rank"];
+let heading_3 = document.createElement('td');
+heading_3.innerHTML = stats[i]["followers_total"];
+let heading_4 = document.createElement('td');
+heading_4.innerHTML = stats[i]["views_total"];
+var texte=document.createElement('p');
+texte.textContent=jsondata[i]['name'];
+var nam=document.createElement('p');
+nam.textContent=jsondata[i]['name'];
+var div=document.createElement('td');
+div.appendChild(texte);
+div.classList.add("cellule-tableau");
+var lin=document.createElement('div');
+lin.classList.add("ligne");
+lin.classList.add("centre_col");
+lin.classList.add("centre");
+lin.appendChild(nam);
+var a = document.createElement('a');
+var nbr=jsondata[i]['id'];
+a.href = "http://localhost:8000/streamer.php?id="+nbr;
+a.appendChild(div);
+var c=document.createElement('td');
+var but=document.createElement('input');
+but.type = "checkbox";
+but.addEventListener("click", myFunction);
+function myFunction() {
+    if (row_1.style.display === "none") {
+        row_1.style.display = "table-row";
+  } else {
+    row_1.style.display = "none";
+  }
+}
+lin.appendChild(but);
+enable.appendChild(lin);
+c.appendChild(a);
+row_1.appendChild(c);
+row_1.appendChild(heading_2);
+row_1.appendChild(heading_3);
+row_1.appendChild(heading_4);
+tableau.appendChild(row_1);
+}});
+</script></html>

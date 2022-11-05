@@ -1,0 +1,170 @@
+@font-face {
+    font-family: 'Dimitri';
+    src: URL('DIMITRI_.ttf') format('truetype');
+  }
+
+.en
+{
+    width: 100%;
+    background-color: #303030;
+    border-top: 2px solid rgb(255, 255, 255);
+    border-bottom: 2px solid rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+}
+
+body
+{
+    width: 100%;
+    margin:0;
+    background:linear-gradient(rgb(88, 57, 145),rgb(183, 160, 225));
+}
+
+.colonne
+{
+    display:flex;
+    flex-direction: column;
+}
+
+.ligne
+{
+    display:flex;
+    flex-direction: row;
+}
+
+.bulle
+{
+    border-radius: 10px;
+    text-align: center;
+}
+
+button{
+    margin:5px;
+    border: none;
+    height: 4vh;
+}
+
+button:hover
+{
+    cursor:pointer;
+}
+
+ul
+{
+    list-style-type: none;
+    gap: 30px;
+
+}
+
+.centre_col{
+    display: flex;
+    align-items: center;
+}
+
+.centre{
+    display: flex;
+    justify-content: center;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+.w-full
+{
+    width: 100%;
+}
+
+h1
+{
+    color:rgb(0, 0, 0);
+    font-family: "Dimitri", sans-serif;
+    font-size: 5vm;
+    text-shadow: #ffffff 1px 1px, #ffffff -1px 1px, #ffffff -1px -1px, #ffffff 1px -1px;
+}
+
+
+h2
+{
+    color:rgb(4, 0, 44);
+}
+
+.mt
+{
+    margin-top:5%;
+}
+
+.logo
+{
+    height: 100px;
+    width: 100px;
+}
+
+.se
+{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.full-marge
+{
+    margin:1%;
+}
+
+.bleu
+{
+    background:linear-gradient(rgb(144, 174, 255),rgb(147, 224, 236));
+}
+
+.bleu_fonce
+{
+    background:linear-gradient(rgb(50, 103, 248),rgb(147, 224, 236));
+}
+
+.bleu_fonce:hover
+{
+    background:linear-gradient(rgb(147, 224, 236),rgb(50, 103, 248));
+}
+
+.twitch
+{
+    background:linear-gradient(rgb(145, 97, 234),rgb(174, 161, 199));
+}
+
+.twitch:hover
+{
+    background:linear-gradient(rgb(174, 161, 199),rgb(145, 97, 234));
+}
+
+td{
+    background:#f7baf7;
+    color:black;
+    padding:20px;
+    outline: 1px solid #ffffff;
+  }
+  
+  td:hover{
+    background:#000000;
+    color:#f7baf7;
+  }
+
+  th {
+    background-color:#000000;
+    color:#f7baf7;
+    outline: 1px solid #ffffff;
+    padding:24px;
+    font-size: 30px;
+}
+
+table {
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    font-size: .8rem;
+    width: 80%;
+}
+
+input
+{
+    margin:5px;
+}

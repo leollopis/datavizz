@@ -1,0 +1,8 @@
+{
+    "scripts": {
+        "build": "parcel build home.html"
+    },
+    "dependencies": {
+        "parcel": "^2.5.0"
+    }
+}
